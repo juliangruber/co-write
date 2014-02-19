@@ -3,18 +3,6 @@
 
   Write to streams, respecting backpressure.
 
-## yield write(stream, chunk)
-
-  Write `chunk` to `stream` and block until `stream` is writable again.
-
-  Returns false when `stream` ended and you should stop writing to it.
-
-## Installation
-
-```bash
-$ npm install co-write
-```
-
 ## Example
 
   Write random numbers to an http response until it ends:
@@ -32,6 +20,18 @@ http.createServer(function(req, res){
     }
   })();
 }).listen(8000);
+```
+
+## yield write(stream, chunk)
+
+  Write `chunk` to `stream` and block until `stream` is writable again.
+
+  Returns false when `stream` ended and you should stop writing to it.
+
+## Installation
+
+```bash
+$ npm install co-write
 ```
 
 ## License
