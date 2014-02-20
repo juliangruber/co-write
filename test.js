@@ -54,3 +54,19 @@ test('end', function*(t){
   t.assert(!(yield write(writable, 'bar')), 'ended');
 });
 
+test('listener cleanup', function*(t){
+  var writable = new Writable();
+  writable._write = function(_, _, done){ done() };
+  var before = listeners();
+  yield write(writable, 'foo');
+  t.deepEqual(listeners(), before);
+
+  function listeners(){
+    return {
+      error: writable.listeners('error'),
+      drain: writable.listeners('drain'),
+      finish: writable.listeners('finish')
+    };
+  }
+});
+
