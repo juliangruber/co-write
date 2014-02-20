@@ -32,6 +32,12 @@ http.createServer(function(req, res){
 
   Throws when `stream` already ended.
 
+## HTTP special casing
+
+  When an HTTP request ended, the HTTP response stays writable, only it's
+  underlying socket closes. To stay consistent with other streams' behavior,
+  in that case `write()` will throw an error itself.
+
 ## Installation
 
 ```bash

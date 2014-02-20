@@ -18,6 +18,12 @@ module.exports = function write(stream, chunk){
       done(err);
     }
 
+    if (stream.socket && !stream.socket.writable) {
+      var err = new Error('write after end');
+      err.status = 200;
+      return done(err);
+    }
+
     if (stream.write(chunk)) {
       stream.removeListener('error', error);
       if (errored) return;

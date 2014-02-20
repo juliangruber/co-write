@@ -64,6 +64,20 @@ test('end', function*(t){
   t.assert(threw, 'threw');
 });
 
+test('socket closed', function*(t){
+  var writable = new Writable();
+  writable.socket = { writable: false };
+  var threw = false;
+
+  try {
+    yield write(writable, 'foo');
+  } catch (err) {
+    threw = true;
+  }
+
+  t.assert(threw, 'threw');
+});
+
 test('listener cleanup', function*(t){
   var writable = new Writable();
   writable._write = function(_, _, done){ done() };
