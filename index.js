@@ -11,7 +11,7 @@
 module.exports = function write(stream, chunk){
   return function(done){
     var errored = false;
-    if (stream._writableState.ended) return done(null, false);
+    if (!stream.writable) return done(null, false);
 
     stream.once('error', function(err){
       errored = true;
@@ -21,7 +21,7 @@ module.exports = function write(stream, chunk){
     if (stream.write(chunk)) {
       stream.removeListener('error', done);
       if (errored) return;
-      done(null, !stream._writableState.ended);
+      done(null, stream.writable);
     } else {
       stream.once('drain', next);
       stream.once('finish', next);
@@ -30,7 +30,7 @@ module.exports = function write(stream, chunk){
         stream.removeListener('error', done);
         stream.removeListener('drain', next);
         stream.removeListener('finish', next);
-        done(null, !stream._writableState.ended);
+        done(null, stream.writable);
       }
     }
   }

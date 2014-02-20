@@ -41,17 +41,16 @@ test('error', function*(t){
 
 test('end', function*(t){
   var writable = new Writable({
-    highWaterMark: 0 // force immediate backpressure
+    highWaterMark: 0 // no queuing
   });
-
   writable._write = function(chunk, _, done){
     setTimeout(function(){
       done();
-      writable.end();
+      writable.writable = false;
     }, 10);
   };
 
-  t.assert(yield write(writable, 'foo'));
-  t.assert(!(yield write(writable, 'bar')));
+  t.assert(yield write(writable, 'foo'), 'writable');
+  t.assert(!(yield write(writable, 'bar')), 'ended');
 });
 
