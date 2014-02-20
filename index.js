@@ -11,7 +11,6 @@
 module.exports = function write(stream, chunk){
   return function(done){
     var errored = false;
-    if (!stream.writable) return done(null, false);
 
     stream.once('error', error);
     function error(err){

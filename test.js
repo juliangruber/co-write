@@ -47,11 +47,21 @@ test('end', function*(t){
     setTimeout(function(){
       done();
       writable.writable = false;
+      writable.end();
     }, 10);
   };
 
   t.assert(yield write(writable, 'foo'), 'writable');
   t.assert(!(yield write(writable, 'bar')), 'ended');
+  
+  var threw;
+  try {
+    yield write(writable, 'bar');
+  } catch (err) {
+    threw = true;
+  }
+
+  t.assert(threw, 'threw');
 });
 
 test('listener cleanup', function*(t){

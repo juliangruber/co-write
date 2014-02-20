@@ -30,6 +30,8 @@ http.createServer(function(req, res){
 
   Returns false when `stream` ended and you should stop writing to it.
 
+  Throws when `stream` already ended.
+
 ## Installation
 
 ```bash
