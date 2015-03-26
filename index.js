@@ -1,3 +1,4 @@
+var streamWrite = require('stream-write');
 
 /**
  * Write `chunk` to `stream`, respecting backpressure.
@@ -10,35 +11,7 @@
 
 module.exports = function write(stream, chunk){
   return function(done){
-    var errored = false;
-
-    stream.once('error', error);
-    function error(err){
-      errored = true;
-      done(err);
-    }
-
-    if (stream.socket && !stream.socket.writable) {
-      var err = new Error('write after end');
-      err.status = 200;
-      return done(err);
-    }
-
-    if (stream.write(chunk)) {
-      stream.removeListener('error', error);
-      if (errored) return;
-      done(null, stream.writable);
-    } else {
-      stream.once('drain', next);
-      stream.once('finish', next);
-
-      function next(){
-        stream.removeListener('error', error);
-        stream.removeListener('drain', next);
-        stream.removeListener('finish', next);
-        done(null, stream.writable);
-      }
-    }
+    streamWrite(stream, chunk, done);
   }
 };
 

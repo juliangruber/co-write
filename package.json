@@ -10,5 +10,8 @@
   "devDependencies": {
     "gap": "0.0.1",
     "faucet": "0.0.1"
+  },
+  "dependencies": {
+    "stream-write": "^1.0.0"
   }
 }
