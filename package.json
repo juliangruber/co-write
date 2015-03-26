@@ -1,6 +1,6 @@
 {
   "name": "co-write",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "description": "Write to streams, respecting backpressure",
   "license": "MIT",
   "repository": "juliangruber/co-write",
